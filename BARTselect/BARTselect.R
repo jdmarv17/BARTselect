@@ -1,6 +1,7 @@
 library(dbarts)
 library(tidyverse)
 library(parallel)
+library(janitor)
 
 ##### VETTED FUNCTIONS AFTER 7/18/23 #####
 `%ni%` = Negate(`%in%`)
@@ -204,10 +205,7 @@ fit.model.sim = function(data, response.type = "continuous", response,
 
 
 
-# This function takes output from bart.pipe (or other methods) and true interactions
-# and returns tibble with summary of selected interactions.
-# Mostly for simulations.
-# Dont forget to mutate sim_num when calling this function.
+# Mostly for simulations, requires known true pairs
 process.select.int = function(selected, version, correct.pairs) {
   # ARGS:
   # `selected` = vector of selected interactions
@@ -235,7 +233,7 @@ process.select.int = function(selected, version, correct.pairs) {
   
 }
 
-
+# mostly for simulations
 process.select.vars = function(selected, version, correct.vars) {
   
   if (length(selected) != 0) {
@@ -366,9 +364,7 @@ run_bart = function(formula, data,
 
 
 
-# functions to help replace loops in get_posteriors()
-co.include = function(index, df) { colMeans(subset(df, df[, index] == 1)) }
-diff.include = function(index, record.df, margin.df) { (record.df[index, ] - margin.df[index]) }
+
 
 get_posteriors = function(indicators, vars, num_threads_wrangle) {
   #### for notation let x_j be col name and x_i row
@@ -386,6 +382,9 @@ get_posteriors = function(indicators, vars, num_threads_wrangle) {
   # `data` = data frame with x's and y's
   # `indicators` = data frame of tree inclusion indicators
   
+  # functions to help replace loops in get_posteriors()
+  co.include = function(index, df) { colMeans(subset(df, df[, index] == 1)) }
+  diff.include = function(index, record.df, margin.df) { (record.df[index, ] - margin.df[index]) }
   
   # grab marginal inclusions for difference matrix
   marginals = colMeans(indicators)
@@ -622,7 +621,7 @@ get_thresholds = function(formula, data,
   if (use_differences == TRUE) {
     to_return = list(global_threshold, local_thresholds, diff_thresholds, vip.global, multipliers)
     
-  } else { # if not using global SE method then set all diff_thresholds to the user supplied value
+  } else { # if not using global SE method then don't return multipliers either
     to_return = list(global_threshold, local_thresholds, diff_thresholds, vip.global)
   }  
   
