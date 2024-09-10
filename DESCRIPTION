@@ -1,5 +1,5 @@
-Package: bart.package.test
-Title: BART-Based Selection and Modeling Pipeline
+Package: BARTselect
+Title: BART-Based Non-parametric Variable and Interaction Selection
 Version: 0.0.0.9000
 Authors@R: 
     person("Joshua", "Marvald", , "joshua_marvald@urmc.rochester.edu", role = c("aut", "cre"))
