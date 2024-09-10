@@ -7,7 +7,7 @@ library(stargazer)
 
 
 #source("BARTselect/BARTselect.R")
-source("~/non_package_files/BARTselect/BARTselect.R")
+library(BARTselect)
 data("birthwt")
 
 
@@ -45,8 +45,8 @@ for (i in 1:10) {
                             num_burn = 5000, num_null_run = 20, num_thin = 5,
                             num_chains = 4, num_threads_bart = 4, num_threads_wrangle = 8,
                             prior_power = 1, prior_base = 0.9, alpha_g = 0.05, alpha_d = alpha_d,
-                            alpha.g.vip = 0.1, method = "global", set.diff.thresh = FALSE, diff.thresh = 0,
-                            response.type = "continuous", hierarchical = TRUE)
+                            alpha_g_vip = 0.1, method = "global", set_diff_thresh = FALSE, diff_thresh = 0,
+                            response_type = "continuous", hierarchical = TRUE)
   
   # record selected interactions
   new_rows_interact = as.data.frame(tibble(interact = record_list[[i]][[12]])) %>% mutate(sim = i)

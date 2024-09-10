@@ -7,7 +7,7 @@ library(randomForest)
 library(dbarts)
 
 #source("BARTselect/BARTselect.R")
-source("~/non_package_files/BARTselect/BARTselect.R")
+library(BARTselect)
 data("MedExp")
 
 
@@ -45,8 +45,8 @@ for (i in 1:20) {
                             num_burn = 5000, num_null_run = 20, num_thin = 5,
                             num_chains = 4, num_threads_bart = 4, num_threads_wrangle = 8,
                             prior_power = 4, prior_base = .99, alpha_g = 0.1, alpha_d = 0.1,
-                            alpha.g.vip = 0.1, method = "global", set.diff.thresh = TRUE, diff.thresh = 0.275,
-                            response.type = "continuous", hierarchical = TRUE)
+                            alpha_g_vip = 0.1, method = "global", set_diff_thresh = TRUE, diff_thresh = 0.275,
+                            response_type = "continuous", hierarchical = TRUE)
   
   # record selected interactions
   new_rows_interact = as.data.frame(tibble(interact = record_list[[i]][[12]])) %>% mutate(sim = i)
