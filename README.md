@@ -1,6 +1,8 @@
 # BARTselect
 
-This is a repository to store the function files to replicate results in the paper "Detecting Interactions Using Bayesian Additive Regression Trees." Data used for analyses comes from two R packages. The birth weight data comes from MASS::birthwt and the medical expenditures data comes from Ecdat::MedExp. Both packages are readily available for installation from CRAN.
+This is a repository for the R package BARTselect. While package is still in development the R code for the completed method is contained within the folder 'non_package_files.'
+
+Files in this folder will allow a user to replicate results in the paper "Detecting Interactions Using Bayesian Additive Regression Trees." Data used for analyses comes from two R packages. The birth weight data comes from MASS::birthwt and the medical expenditures data comes from Ecdat::MedExp. Both packages are readily available for installation from CRAN.
 
 -   BARTselect.R contains all necessary BARTselect functions to run BARTselect with real data examples
 -   data_generation.R contains functions to generate data used in simulations
