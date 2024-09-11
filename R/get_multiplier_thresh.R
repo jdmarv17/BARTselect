@@ -6,6 +6,7 @@
 #'
 #' @return A data frame with 1 - alpha quantiles, means, sd's, and global SE threshold for each variable
 #' 
+#' @keywords internal
 #'
 #' @examples
 #' library(MASS)

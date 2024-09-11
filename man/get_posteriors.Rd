@@ -37,3 +37,4 @@ bart_run = run_bart(formula, data, vars = vars)
 posteriors = get_posteriors(bart_run[[1]], vars, parallel::detectCores())
 
 }
+\keyword{internal}

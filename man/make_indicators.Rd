@@ -23,3 +23,4 @@ p = 10
 indicators = make_indicators(var_indices, p)
 
 }
+\keyword{internal}

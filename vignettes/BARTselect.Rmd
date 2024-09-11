@@ -24,7 +24,7 @@ This vignette provides an overview of how to use $\tt{BARTselect}$, which provid
 Important parameters to consider include the quantiles used for variable and interactions selection, the prior power for the BART models, and the number of null runs to generate thresholds. Since there are not default specifications that will work well for all selection scenarios, users may need to run $\tt{BARTselect()}$ with different parameter values to return more or less stringent selection. 
 
 
-Users who wish for more stringent selection for a given threshold should decrease the $\alpha$ value associated with that threshold's quantile. For example, if $\tt{BARTselect()}$ with default parameters selects too many interactions, the user may decrease the alpha_g parameter to make the global CIP threshold more stringent. The threshold for CMDs is controlled by setting set_diff_thresh = FALSE and specifying alpha_d, or by setting set_diff_thresh = TRUE and providing a diff_thresh value. Since CMDs in the null runs are a mix of positive and negative, thresholds generated from these values can be unpredictable. We find that using multiples of alpha_d = $2 / p(p-1)$ is a suitable starting place for automatic threshold generation that is adaptive to the data's dimensionality. Users can also specify the quantile without making it data-dependent. If users desire even more control over the CMD threshold they can set set_diff_thresh = TRUE and specify a range of threshold to test (for instance seq(0, 0.2, by = 0.025)). The prior_base parameter can also be adjusted to impact the prior probability of small or large trees but we find it easier to adjust only the prior_power.
+Users who wish for more stringent selection for a given threshold should decrease the $\alpha$ value associated with that threshold's quantile. For example, if $\tt{BARTselect()}$ with default parameters selects too many interactions, the user may decrease the alpha_g parameter to make the global CIP threshold more stringent. The threshold for CMDs is controlled by setting set_diff_thresh = FALSE and specifying alpha_d, or by setting set_diff_thresh = TRUE and providing a diff_thresh value. Since CMDs in the null runs are a mix of positive and negative, thresholds generated from these values can be unpredictable. We find that using multiples of alpha_d = $2 / p(p-1)$ is a suitable starting place for automatic threshold generation that is adaptive to the data dimensionality. Users can also specify the quantile without making it data-dependent. If users desire even more control over the CMD threshold they can set set_diff_thresh = TRUE and specify a range of threshold to test (for instance seq(0, 0.2, by = 0.025)). The prior_base parameter can also be adjusted to impact the prior probability of small or large trees but we find it easier to adjust only the prior_power and leave the prior_base at 0.95 or 0.99.
 
 
 The prior power for the BART models plays an important role in determining the size of posterior trees. Higher values of this parameter will induce smaller trees while smaller values will induce larger trees. Considering that interaction selections are based on tree co-inclusion, this parameter can play a large role in high dimensional settings. The prior power also plays a role on threshold generation. For this reason, we recommend setting the prior power before tuning parameters related to threshold generation. Datasets with fewer covariates $p \approx 10$ tend to have decent performance with the prior_power parameter set between 1 and 4. Datasets with many covariates $p \approx 100$ tend to need a higher prior_power value (4-6) to stop the trees from growing too large. Very high dimensional datasets $p > 1000$ tend to require very high prior_power values (6-8).
@@ -67,7 +67,7 @@ head(birth_weights)
 
 <br>
 
-Using the covariates in the dataset we wish to find variables and interactions that are predictive of the newborn birth weight. To do this we just need to run the $\tt{BARTselect()}$ which will do automatic variable and interaction selection. We use a prior_power = 1 due to the low number of covariates. We set the CIP threshold alpha_g = 0.05 and the variable selection threshold alpha_g_vip = 0.05. We also use the data-dependent quantile for the CMD threshold of alpha_d = $2 / p(p-1)$. Finally, we set the null runs with num_null_run = 15. 
+Using the covariates in the dataset we wish to find variables and interactions that are predictive of the newborn birth weight. To do this we just need to run the $\tt{BARTselect()}$ which will do automatic variable and interaction selection. We use a prior_power = 1 due to the low number of covariates. We set the CIP threshold alpha_g = 0.05 and the variable selection threshold alpha_g_vip = 0.05. We also use the data-dependent quantile for the CMD threshold of alpha_d = $10 / p(p-1)$. Finally, we set the null runs with num_null_run = 15. 
 
 
 We recommend using at least 4 chains if possible. The parameter num_threads_bart determines the number of threads passed to $\tt{dbarts::bart2()}$ and is not recommended to be larger than the number of chains. Finally, num_threads_wrangle determines the number of threads used for wrangling of the posterior results. This parameter can be set independently of the other thread arguments. Increasing the number of threads used for wrangling will speed up the processing $\tt{BARTselect()}$ does after running $\tt{dbarts::bart2()}$.
@@ -98,10 +98,10 @@ While we can set a seed that will give us the same permuted outcomes for the nul
 ### Print selections:
 
 ```{r}
-# selected interactions:
-selections[[12]]
 # selected variables:
 selections[[11]]
+# selected interactions:
+selections[[12]]
 ```
 
 

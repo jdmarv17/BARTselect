@@ -37,3 +37,4 @@ posteriors = get_posteriors(bart_run[[1]], vars, parallel::detectCores())
 thresholds = get_multiplier_thresh(record = posteriors[[1]], alpha = 0.01, use_means = TRUE)
 
 }
+\keyword{internal}

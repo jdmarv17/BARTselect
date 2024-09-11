@@ -11,6 +11,7 @@
 #' @return A list of selected interactions. If method %in% c("global", "local") the list will contain one data frame 
 #' of selected interactions and associated posterior info. If method = "both" a data frame will be returned for each method
 #' 
+#' @keywords internal
 #'
 #' @examples
 #' #' library(MASS)

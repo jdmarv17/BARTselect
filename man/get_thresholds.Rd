@@ -93,3 +93,4 @@ vars = colnames(dbarts_x)
 thresholds = get_thresholds(formula, data, vars = vars)
 
 }
+\keyword{internal}

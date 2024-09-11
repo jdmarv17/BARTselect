@@ -1,9 +1,9 @@
 #' Function to get VIP from filtered tree data frame
 #'
-#' @param filtered.trees 
+#' @param filtered_trees 
 #'
 #' @return A data frame of VIPs for each variable
-#' 
+#' @keywords internal
 #'
 #' @examples
 #' library(MASS)

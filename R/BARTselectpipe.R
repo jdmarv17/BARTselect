@@ -1,4 +1,4 @@
-#' Function to run automatic BART-based interaction and variable selection
+#' Function to run automatic BART-based interaction and variable selection - automatic GLM modeling
 #'
 #' @param formula Object of class formula.
 #' @param data A data frame of original data.
@@ -18,16 +18,16 @@
 #' @param num_threads_bart Number of threads used to run BART - not recommended to be greater than 'num_chains'.
 #' @param num_threads_wrangle Number of threads for post processing - can be larger than 'num_chains'.
 #' @param set_diff_thresh TRUE/FALSE whether user wants to manually set the CMD threshold
+#' @param hierarchical TRUE/FALSE whether to force both main effects in model if corresponding pairwise interaction is included (only for interpretable model after selections).
+#' @param response_type A value %in% c("continuous", "binary") to specify outcome type for interpretable model
 #' @param diff_thresh A user supplied value for CMD threshold. Only used if set_diff_thresh = TRUE.
 #'
 #' @return A list of return objects. Object (1) is selected interactions and summary from global threshold. Object (2) is selected interactions
 #' and summary from local thresholds. Objects (3)-(5) are the posterior CIPs, CMDs, and MIPs respectively. Objects (6)-(8)
 #' are the global CIP threshold, local CIP thresholds, and CMD thresholds. Object (9) is a character specifying the threshold type used. Objects (10) and (11)
-#' are selected variable indices and names from variable selection procedure. Objects (12) and (13) are the selected interactions from the global and
-#' local thresholds respectively.
+#' are selected variable indices and names from variable selection procedure. Objects (12) and (13) are the selected interactions from the global and local thresholds respectively.
+#' Objects (14) and (15) are the fit interpretable models using global and local methods respectively.
 #' 
-#' 
-#' @export 
 #'
 #' @examples
 #' #' library(MASS)
@@ -38,9 +38,9 @@
 #' data = birthwt %>% dplyr::select(., -low)
 #' formula = bwt ~ .
 #' 
-#' select = BARTselect(formula, data, alpha_g = 0.05, alpha_g_vip = 0.1)
+#' select = BARTselectpipe(formula, data, alpha_g = 0.05, alpha_g_vip = 0.1)
 #'  
-BARTselect = function(formula, data, 
+BARTselectpipe = function(formula, data, 
                       num_trees = 10, num_samps = 5000,
                       num_burn = 5000,  num_thin = 5,
                       num_chains = min(4, dbarts::guessNumCores()),
@@ -49,7 +49,8 @@ BARTselect = function(formula, data,
                       prior_power = 4, prior_base = .95,
                       num_threads_bart = min(dbarts::guessNumCores(), num_chains),
                       num_threads_wrangle = dbarts::guessNumCores(),
-                      set_diff_thresh = FALSE, diff_thresh) {
+                      set_diff_thresh = FALSE, hierarchical = TRUE,
+                      response_type = "continuous", diff_thresh) {
   
   `%ni%` = base::Negate(`%in%`)
   
@@ -196,12 +197,39 @@ BARTselect = function(formula, data,
   
   var.names = vars[var.select$var]
   
- 
+  # now fit model using selected variables and interactions
+  if (method == "global") {
+    mod.global = fit_model(data = data, response_type = response_type, response = response,
+                           main_effects = var.names, interactions = interact.global,
+                           hierarchical = hierarchical,
+                           dbarts_x = dbarts_x, dbarts_y = dbarts_y)
+    mod.local = NULL
+  } else if (method == "local") {
+    mod.global = NULL
+    mod.local = fit_model(data = data, response_type = response_type, response = response,
+                          main_effects = var.names, interactions = interact.local,
+                          hierarchical = hierarchical,
+                          dbarts_x = dbarts_x, dbarts_y = dbarts_y)
+  } else if (method == "both") {
+    mod.global = fit_model(data = data, response_type = response_type, response = response,
+                           main_effects = var.names, interactions = interact.global,
+                           hierarchical = hierarchical,
+                           dbarts_x = dbarts_x, dbarts_y = dbarts_y)
+    mod.local = fit_model(data = data, response_type = response_type, response = response,
+                          main_effects = var.names, interactions = interact.local,
+                          hierarchical = hierarchical,
+                          dbarts_x = dbarts_x, dbarts_y = dbarts_y)
+  }
+  
+  
+  
   # things to return
   to_return = list(selected_global, selected_local, 
                    real_run[[1]], real_run[[2]], real_run[[3]],
                    thresh_list[[1]], thresh_list[[2]], thresh_list[[3]],
-                   method, var.select$var, var.names, interact.global, interact.local)
+                   method, var.select$var, var.names, interact.global, interact.local,
+                   mod.global, mod.local)
+  #,mod.global, mod.local)
   
   
   return(to_return)

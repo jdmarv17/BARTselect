@@ -5,6 +5,7 @@
 #'
 #' @return A vector of 1's and 0's. 1's are in positions specified by var_indices.
 #' 
+#' @keywords internal
 #'
 #' @examples
 #' var_indices = c(1, 4, 5, 10)

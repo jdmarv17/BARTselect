@@ -7,6 +7,7 @@
 #'
 #' @return A list with 3 objects. First is the matrix of CIPs, second is matrix of CMDs, third is vector of MIPs
 #'
+#' @keywords internal
 #'
 #' @examples
 #' library(MASS)

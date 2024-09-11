@@ -7,7 +7,7 @@
 get_vip(filtered_trees)
 }
 \arguments{
-\item{filtered.trees}{}
+\item{filtered_trees}{}
 }
 \value{
 A data frame of VIPs for each variable
@@ -32,3 +32,4 @@ bart_run = run_bart(formula, data, vars = vars)
 vip = get_vip(filtered_trees = bart_run[[4]])
 
 }
+\keyword{internal}

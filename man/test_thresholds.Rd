@@ -57,3 +57,4 @@ select = test_thresholds(thresholds[[1]], thresholds[[2]], thresholds[[3]],
                          method = "global")
                            
 }
+\keyword{internal}
