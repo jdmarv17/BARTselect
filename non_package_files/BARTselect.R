@@ -34,8 +34,7 @@ selections = BARTselect(bwt ~ ., data = birth_weights,
                         num_threads_bart = bart_threads, num_threads_wrangle = wrangle_threads,
                         alpha_g = 0.1, alpha_g_vip = 0.1,
                         alpha_d = alpha_d, set_diff_thresh = FALSE,
-                        prior_power = 1, prior_base = 0.95, method = "global",
-                        response_type = "continuous", hierarchical = TRUE)
+                        prior_power = 1, prior_base = 0.95, method = "global")
 
 ## -----------------------------------------------------------------------------
 # selected variables:

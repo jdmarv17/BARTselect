@@ -2,6 +2,6 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^Meta$
-^vignettes$
+^vignettes/
 ^.*\.Rproj$
 ^doc$
