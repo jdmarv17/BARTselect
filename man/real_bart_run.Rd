@@ -66,3 +66,4 @@ vars = colnames(dbarts_x)
 
 bart_run = real_bart_run(formula, data, vars = vars)
 }
+\keyword{internal}

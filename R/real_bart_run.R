@@ -16,6 +16,7 @@
 #' @return A list of four objects. The first three are the return objects from get_posteriors(), 
 #' the fourth is a dataframe of filtered trees.
 #'
+#' @keywords internal
 #'
 #' @examples
 #' library(MASS)
