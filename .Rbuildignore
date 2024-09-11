@@ -1,5 +1,5 @@
 ^BARTselect.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
-^doc$
 ^Meta$
+^.*\.Rproj$
