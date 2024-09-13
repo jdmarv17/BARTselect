@@ -16,5 +16,6 @@ Imports:
     parallel
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    data.table
 VignetteBuilder: knitr
