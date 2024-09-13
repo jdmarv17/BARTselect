@@ -40,6 +40,9 @@ run_bart = function(formula, data,
   # calculate number of samples after thinning to 
   actual_samps = num_samps / num_thin
   
+  # grab response in case we need sd
+  response = as.character(formula[2])
+  
   # if n <= p get a sigma estimate from std dev of the response, otherwise let bart2() estimate it
   sigma = ifelse(nrow(data) <= (ncol(data) - 1), sd(data[[response]], na.rm = TRUE), NA_real_)
   # ^ THIS CHECK PROBABLY NEEDS TO BE ADJUSTED IF USING DUMMY MATRIX NOW
