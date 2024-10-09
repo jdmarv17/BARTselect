@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-This vignette provides an overview of how to use $\tt{BARTselect}$, which provides tools for interaction and variable selection using Bayesian Additive Regression Trees (BART). $\tt{BARTselect}$ takes advantage of the R package $\tt{dbarts}$ for fast computation of BART models (@chipman2010bart). Variable selection is accomplished using an adaption of the method proposed in @bleich2014variable. Interaction selection is done using the method described in the paper"Detecting Interactions Using Bayesian Additive Regression Trees," Marvald and Love 2024.
+This vignette provides an overview of how to use $\tt{BARTselect}$, which provides tools for interaction and variable selection using Bayesian Additive Regression Trees (BART). $\tt{BARTselect}$ takes advantage of the R package $\tt{dbarts}$ for fast computation of BART models (@chipman2010bart). Variable selection is accomplished using an adaption of the method proposed in @bleich2014variable. Interaction selection is done using the method described in the paper "Detecting Interactions Using Bayesian Additive Regression Trees," Marvald and Love 2024.
 
 Important parameters to consider include the quantiles used for variable and interactions selection, the prior power for the BART models, and the number of null runs to generate thresholds. Since there are not default specifications that will work well for all selection scenarios, users may need to run $\tt{BARTselect()}$ with different parameter values to return more or less stringent selection.
 
