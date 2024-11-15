@@ -2,7 +2,7 @@
 % Please edit documentation in R/BARTselect.R
 \name{BARTselect}
 \alias{BARTselect}
-\title{Function to run automatic BART-based interaction and variable selection}
+\title{Function to run automatic BART-based interaction and variable selection.}
 \usage{
 BARTselect(
   formula,
@@ -73,7 +73,7 @@ are selected variable indices and names from variable selection procedure. Objec
 local thresholds respectively.
 }
 \description{
-Function to run automatic BART-based interaction and variable selection
+Function to run automatic BART-based interaction and variable selection.
 }
 \examples{
 #' library(MASS)
