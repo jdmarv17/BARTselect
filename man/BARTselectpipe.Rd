@@ -86,13 +86,16 @@ with the selected variables and interactions. If the dataset at hand includes fa
 may only include specific factor levels as covariates instead of the original factor covariate.
 }
 \examples{
-#' library(MASS)
+library(MASS)
 library(dbarts)
 library(dplyr)
 library(janitor)
 data(birthwt)
 data = birthwt \%>\% dplyr::select(., -low)
 formula = bwt ~ .
+
+p = ncol(data) - 1
+alpha_d =  (2 / (p * (p - 1)))
 
 select = BARTselectpipe(formula, data, alpha_g = 0.05, alpha_g_vip = 0.1)
  

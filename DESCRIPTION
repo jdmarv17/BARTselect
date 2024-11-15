@@ -17,5 +17,6 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    data.table
-VignetteBuilder: knitr
+    data.table,
+    MASS
+VignetteBuilder: NA

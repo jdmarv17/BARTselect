@@ -76,7 +76,7 @@ local thresholds respectively.
 Function to run automatic BART-based interaction and variable selection.
 }
 \examples{
-#' library(MASS)
+library(MASS)
 library(dbarts)
 library(dplyr)
 library(janitor)
@@ -84,6 +84,10 @@ data(birthwt)
 data = birthwt \%>\% dplyr::select(., -low)
 formula = bwt ~ .
 
-select = BARTselect(formula, data, alpha_g = 0.05, alpha_g_vip = 0.1)
+p = ncol(data) - 1
+alpha_d =  (2 / (p * (p - 1)))
+
+select = BARTselect(formula, data, prior_power = 1, prior_base = 0.9,
+                    alpha_g = 0.05, alpha_g_vip = 0.1, alpha_d = alpha_d)
  
 }
