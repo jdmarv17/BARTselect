@@ -1,4 +1,4 @@
-#' Function to run automatic BART-based interaction and variable selection
+#' Function to run automatic BART-based interaction and variable selection.
 #'
 #' @param formula Object of class formula.
 #' @param data A data frame of original data.

@@ -1,8 +1,16 @@
 # BARTselect
 
-This is a repository for the R package BARTselect. Package documentation is still under development but all code is complete. Package will be finalized upon publication of the method paper.
+This is a repository for the R package BARTselect. BARTselect allows users to complete interaction and variable selection using the Bayesian Additive Regression Trees (BART) model. Variable selection is completed using an adaptation of that described in *Variable selection for BART: an application to gene regulation* (Bleich et al., 2014)*.* Interaction selection is accomplished using techniques described in *Detecting Interactions Using Bayesian Additive Regression Trees* (Marvald & Love, 2024).
 
-Files in this package will allow a user to replicate results in the paper "Detecting Interactions Using Bayesian Additive Regression Trees." Data used for analyses comes from two R packages. The birth weight data comes from MASS::birthwt and the medical expenditures data comes from Ecdat::MedExp. Both packages are readily available for installation from CRAN.
+To install the BARTselect package a user should run the following code:
+
+```{r}
+library(devtools)
+install_github("jdmarv17/BARTselect")
+
+```
+
+While most users will only download the R package itself, analyses from the interaction detection paper can be replicated using files in this repository. Files to do this are contained in 'non_package_files'. Data used for analyses comes from two R packages. The birth weight data comes from MASS::birthwt and the medical expenditures data comes from Ecdat::MedExp. Both packages are readily available for installation from CRAN.
 
 -   R/BARTselect.R contains the code for BARTselect function to detect variables and interactions
 -   non_package_files/data_generation.R contains functions to generate data used in simulations

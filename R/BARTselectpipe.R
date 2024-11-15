@@ -1,4 +1,6 @@
-#' Function to run automatic BART-based interaction and variable selection - automatic GLM modeling
+#' Function to run automatic BART-based interaction and variable selection. Includes automatic GLM modeling
+#' with the selected variables and interactions. If the dataset at hand includes factor covariates the modeling
+#' may only include specific factor levels as covariates instead of the original factor covariate.
 #'
 #' @param formula Object of class formula.
 #' @param data A data frame of original data.

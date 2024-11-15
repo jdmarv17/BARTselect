@@ -2,7 +2,9 @@
 % Please edit documentation in R/BARTselectpipe.R
 \name{BARTselectpipe}
 \alias{BARTselectpipe}
-\title{Function to run automatic BART-based interaction and variable selection - automatic GLM modeling}
+\title{Function to run automatic BART-based interaction and variable selection. Includes automatic GLM modeling
+with the selected variables and interactions. If the dataset at hand includes factor covariates the modeling
+may only include specific factor levels as covariates instead of the original factor covariate.}
 \usage{
 BARTselectpipe(
   formula,
@@ -79,7 +81,9 @@ are selected variable indices and names from variable selection procedure. Objec
 Objects (14) and (15) are the fit interpretable models using global and local methods respectively.
 }
 \description{
-Function to run automatic BART-based interaction and variable selection - automatic GLM modeling
+Function to run automatic BART-based interaction and variable selection. Includes automatic GLM modeling
+with the selected variables and interactions. If the dataset at hand includes factor covariates the modeling
+may only include specific factor levels as covariates instead of the original factor covariate.
 }
 \examples{
 #' library(MASS)
