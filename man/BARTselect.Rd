@@ -86,9 +86,9 @@ formula = bwt ~ .
 
 p = ncol(data) - 1
 alpha_d =  (8 / (p * (p - 1)))
-chains = 2
-bart_threads = 1
-wrangle_threads = 1
+chains = 4
+bart_threads = 4
+wrangle_threads = 8
 
 selections = BARTselect(bwt ~ ., data = data,
                        num_trees = 10, num_samps = 10000, num_burn = 5000,
