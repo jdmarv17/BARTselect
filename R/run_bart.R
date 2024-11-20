@@ -14,6 +14,9 @@
 #' @param vars Column names resulting from dbartsData(data).
 #'
 #' @return A list of 2 objects. Object (1) is an indicator data frame of variable tree inclusion, object (2) is a data frame of posterior trees without terminal nodes.
+#' 
+#' @importFrom rlang .data
+#' 
 #' @export 
 #'
 #' @examples
@@ -64,11 +67,11 @@ run_bart = function(formula, data,
   # split up by chain, tree, sample to take advantage of mclapply
   var.list = 
     filtered_trees %>%
-    dplyr::group_by(., chain, tree, sample) %>%
+    dplyr::group_by(.data$chain, .data$tree, .data$sample) %>%
     dplyr::group_split() %>% # list of filtered_tree tibbles by chain, tree, sample
-    parallel::mclapply(., function(x) x[,"var"], mc.cores = num_threads_wrangle) %>% # select only var column
-    lapply(., unlist) %>% # get as vector
-    lapply(., unname) # get rid of names
+    parallel::mclapply(function(x) x[,"var"], mc.cores = num_threads_wrangle) %>% # select only var column
+    lapply(unlist) %>% # get as vector
+    lapply(unname) # get rid of names
   
   # run through make_indicators() with mclapply
   indicator.list = parallel::mclapply(X = var.list, FUN = make_indicators,

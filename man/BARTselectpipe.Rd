@@ -95,8 +95,19 @@ data = birthwt \%>\% dplyr::select(., -low)
 formula = bwt ~ .
 
 p = ncol(data) - 1
-alpha_d =  (2 / (p * (p - 1)))
+alpha_d =  (8 / (p * (p - 1)))
+chains = 2
+bart_threads = 1
+wrangle_threads = 1
 
-select = BARTselectpipe(formula, data, alpha_g = 0.05, alpha_g_vip = 0.1)
+selections = BARTselectpipe(bwt ~ ., data = data,
+                       num_trees = 10, num_samps = 10000, num_burn = 5000,
+                       num_chains = chains, num_thin = 5, num_null_run = 6,
+                       num_threads_bart = bart_threads, num_threads_wrangle = wrangle_threads,
+                       alpha_g = 0.1, alpha_g_vip = 0.1,
+                       alpha_d = alpha_d, set_diff_thresh = FALSE,
+                       prior_power = 1, prior_base = 0.95, method = "global")
+                       
+ 
  
 }

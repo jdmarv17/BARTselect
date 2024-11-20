@@ -26,7 +26,8 @@
 #' are selected variable indices and names from variable selection procedure. Objects (12) and (13) are the selected interactions from the global and
 #' local thresholds respectively.
 #' 
-#' 
+#' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export 
 #'
 #' @examples
@@ -39,10 +40,19 @@
 #' formula = bwt ~ .
 #' 
 #' p = ncol(data) - 1
-#' alpha_d =  (2 / (p * (p - 1)))
-#' 
-#' select = BARTselect(formula, data, prior_power = 1, prior_base = 0.9,
-#'                     alpha_g = 0.05, alpha_g_vip = 0.1, alpha_d = alpha_d)
+#' alpha_d =  (8 / (p * (p - 1)))
+#' chains = 2
+#' bart_threads = 1
+#' wrangle_threads = 1
+#'
+#' selections = BARTselect(bwt ~ ., data = data,
+#'                        num_trees = 10, num_samps = 10000, num_burn = 5000,
+#'                        num_chains = chains, num_thin = 5, num_null_run = 6,
+#'                        num_threads_bart = bart_threads, num_threads_wrangle = wrangle_threads,
+#'                        alpha_g = 0.1, alpha_g_vip = 0.1,
+#'                        alpha_d = alpha_d, set_diff_thresh = FALSE,
+#'                        prior_power = 1, prior_base = 0.95, method = "global")
+#'                        
 #'  
 BARTselect = function(formula, data, 
                       num_trees = 10, num_samps = 5000,
@@ -128,10 +138,10 @@ BARTselect = function(formula, data,
   if (method == "global" & nrow(passed_thresh[[1]]) != 0) {
     
     # get rid of duplicated rows if not empty
-    selected_global = dplyr::distinct(passed_thresh[[1]], avg_inclusion_prob, .keep_all = TRUE)
+    selected_global = dplyr::distinct(passed_thresh[[1]], .data$avg_inclusion_prob, .keep_all = TRUE)
     selected_local = NULL
     
-    interact.global = tidyr::unite(selected_global, "pair", var1, var2, sep = ":")$pair
+    interact.global = tidyr::unite(selected_global, "pair", .data$var1, .data$var2, sep = ":")$pair
     interact.local = NULL
     
   } else if (method == "global" & nrow(passed_thresh[[1]]) == 0) {
@@ -145,11 +155,11 @@ BARTselect = function(formula, data,
   } else if (method == "local" & nrow(passed_thresh[[1]]) != 0) {
     
     # get rid of duplicated rows if not empty
-    selected_local = dplyr::distinct(passed_thresh[[1]], avg_inclusion_prob, .keep_all = TRUE)
+    selected_local = dplyr::distinct(passed_thresh[[1]], .data$avg_inclusion_prob, .keep_all = TRUE)
     selected_global = NULL
     
     interact.global = NULL
-    interact.local = tidyr::unite(selected_local, "pair", var1, var2, sep = ":")$pair
+    interact.local = tidyr::unite(selected_local, "pair", .data$var1, .data$var2, sep = ":")$pair
     
   } else if (method == "local" & nrow(passed_thresh[[1]]) == 0) {
     
@@ -166,8 +176,8 @@ BARTselect = function(formula, data,
     if (nrow(passed_thresh[[1]]) != 0) {
       
       # get rid of duplicated rows if not empty
-      selected_global = dplyr::distinct(passed_thresh[[1]], avg_inclusion_prob, .keep_all = TRUE)
-      interact.global = tidyr::unite(selected_global, "pair", var1, var2, sep = ":")$pair
+      selected_global = dplyr::distinct(passed_thresh[[1]], .data$avg_inclusion_prob, .keep_all = TRUE)
+      interact.global = tidyr::unite(selected_global, "pair", .data$var1, .data$var2, sep = ":")$pair
       
     } else {
       
@@ -179,8 +189,8 @@ BARTselect = function(formula, data,
     if (nrow(passed_thresh[[2]]) != 0) {
       
       # get rid of duplicated rows if not empty
-      selected_local = dplyr::distinct(passed_thresh[[2]], avg_inclusion_prob, .keep_all = TRUE)
-      interact.local = tidyr::unite(selected_local, "pair", var1, var2, sep = ":")$pair
+      selected_local = dplyr::distinct(passed_thresh[[2]], .data$avg_inclusion_prob, .keep_all = TRUE)
+      interact.local = tidyr::unite(selected_local, "pair", .data$var1, .data$var2, sep = ":")$pair
       
     } else {
       
@@ -195,8 +205,8 @@ BARTselect = function(formula, data,
   # check which variables selected
   var.select = 
     vip.real %>%
-    dplyr::mutate(select = ifelse(prop.split >= thresh_list[[4]], 1, 0)) %>%
-    dplyr::filter(select == 1)
+    dplyr::mutate(select = ifelse(.data$prop.split >= thresh_list[[4]], 1, 0)) %>%
+    dplyr::filter(.data$select == 1)
   
   var.names = vars[var.select$var]
   

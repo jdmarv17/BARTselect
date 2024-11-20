@@ -5,7 +5,8 @@
 #' @param use_means TRUE/FALSE whether to use variable level CMD means. If FALSE means are set to 0.
 #'
 #' @return A data frame with 1 - alpha quantiles, means, sd's, and global SE threshold for each variable
-#' 
+#' @importFrom stats quantile sd var
+#' @importFrom dplyr mutate case_when
 #' @keywords internal
 #'
 #' @examples
@@ -43,7 +44,7 @@ get_multiplier_thresh = function(record, alpha = 0.01, use_means = TRUE) {
   stats = 
     data.frame(quant_record, means, std_dev) %>%
     mutate(C = (quant_record - means) / std_dev,
-           C_thresh = (means + max(C) * std_dev)) %>%
+           C_thresh = (means + max(.data$C) * std_dev)) %>%
     mutate(C_thresh = case_when(
       C_thresh < 0 ~ 0, # if less than 0 set to 0
       C_thresh > 1 ~ 1, # if greater than 1 set to 1

@@ -13,10 +13,13 @@ Imports:
     dbarts,
     dplyr,
     janitor,
-    parallel
+    parallel,
+    magrittr,
+    tibble,
+    rlang
 Suggests: 
     knitr,
     rmarkdown,
     data.table,
     MASS
-VignetteBuilder: NA
+VignetteBuilder: knitr

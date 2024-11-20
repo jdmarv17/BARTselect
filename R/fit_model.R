@@ -10,6 +10,8 @@
 #' @param hierarchical TRUE/FALSE whether to force both main effects in model if corresponding pairwise interaction is included.
 #'
 #' @return A list of 2 objects. Object (1) is coefficient tibble, object (2) is the fit model object.
+#' 
+#' @importFrom stats binomial coef glm lm 
 #' @export
 #'
 #' @examples

@@ -26,6 +26,10 @@
 #' Second object is a vector of local CIP thresholds. Third object is vector of CMD thresholds. Fourth object is a global
 #' variable selection threshold. Fifth object (if use_differences = TRUE) is the return object from get_multiplier_thresh
 #' 
+#' @importFrom dplyr bind_rows
+#' @importFrom stats quantile
+#' @importFrom tibble tibble
+#' 
 #' @keywords internal
 #'
 #' @examples

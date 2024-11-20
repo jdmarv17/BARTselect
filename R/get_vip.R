@@ -3,6 +3,9 @@
 #' @param filtered_trees 
 #'
 #' @return A data frame of VIPs for each variable
+#' 
+#' @importFrom dplyr summarise group_by n
+#' 
 #' @keywords internal
 #'
 #' @examples
