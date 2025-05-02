@@ -84,7 +84,7 @@ run_bart = function(formula, data,
   }
   
   # run through make_indicators() with mclapply
-  indicator.list = parallel::mclapply(X = var.list, FUN = make_indicators,
+  indicator.list = parallel::mclapply(X = var_list, FUN = make_indicators,
                                       p = length(vars), mc.cores = num_threads_wrangle)
   
   # list to return
